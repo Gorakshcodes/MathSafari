@@ -1,116 +1,28 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Star, Rocket, Zap, Copy, MoveRight, ArrowLeftRight, Scissors, Hand, Brain, ChevronsUp } from 'lucide-react';
+import { ArrowLeft, Rocket, Zap, Copy, MoveRight, ArrowLeftRight, Scissors, Hand, Brain, ChevronsUp } from 'lucide-react';
 import { Button } from './Button';
 import { Card } from './Card';
 import { Translator } from '../types';
+import { LEARN_CONTENT } from '../constants';
 
 interface LearnModeProps {
   onBack: () => void;
   t: Translator;
+  language: string;
 }
 
-// --- Data Structure for Hacks ---
-const LEARN_MODULES = [
-  {
-    id: 'start-big',
-    title: 'Start Big',
-    icon: <Rocket />,
-    color: 'bg-blue-100 text-blue-600',
-    steps: [
-      { text: "Most kids try to add 3 + 12 by starting at 3 and counting up 12 times. That is slow!", visual: "slow" },
-      { text: "The Trick: Always put the BIGGER number in your head first.", visual: "highlight" },
-      { text: "Say '12' out loud, then count up '13, 14, 15'. Much faster!", visual: "fast" }
-    ]
-  },
-  {
-    id: 'plus-nine',
-    title: 'Plus 9 Magic',
-    icon: <Zap />,
-    color: 'bg-yellow-100 text-yellow-600',
-    steps: [
-      { text: "Adding 9 is hard. But adding 10 is easy!", visual: "compare" },
-      { text: "To add 9, just add 10 and jump back 1.", visual: "jump" },
-      { text: "24 + 9? Think: 24 + 10 = 34. Minus 1 = 33!", visual: "solve" }
-    ]
-  },
-  {
-    id: 'doubles',
-    title: 'Doubles + 1',
-    icon: <Copy />,
-    color: 'bg-purple-100 text-purple-600',
-    steps: [
-      { text: "If you know 6 + 6, you know 6 + 7!", visual: "doubles" },
-      { text: "7 is just 6 + 1. They are neighbors.", visual: "neighbors" },
-      { text: "So 6 + 7 is the same as (6 + 6) + 1. That's 12 + 1 = 13!", visual: "solve" }
-    ]
-  },
-  {
-    id: 'nine-ten',
-    title: '9 & 10 Rule',
-    icon: <Brain />,
-    color: 'bg-red-100 text-red-600',
-    steps: [
-      { text: "Subtracting from 100 or 1000? Use the 'All from 9 and last from 10' rule.", visual: "intro" },
-      { text: "100 - 36. Subtract the first digit (3) from 9.", visual: "step1" },
-      { text: "Subtract the last digit (6) from 10. Answer is 64!", visual: "step2" }
-    ]
-  },
-  {
-    id: 'reverse',
-    title: 'Reverse Add',
-    icon: <ArrowLeftRight />,
-    color: 'bg-green-100 text-green-600',
-    steps: [
-      { text: "Subtraction is hard. Addition is easy. Use addition to solve subtraction!", visual: "intro" },
-      { text: "13 - 9 = ? Instead, think: 9 + ? = 13", visual: "bridge" },
-      { text: "9... 10, 11, 12, 13. We needed 4 steps. The answer is 4!", visual: "solve" }
-    ]
-  },
-  {
-    id: 'same-change',
-    title: 'Same Change',
-    icon: <MoveRight />,
-    color: 'bg-orange-100 text-orange-600',
-    steps: [
-      { text: "15 - 8 looks messy. Let's make the numbers friendly.", visual: "messy" },
-      { text: "Add 2 to BOTH numbers. 8 becomes 10. 15 becomes 17.", visual: "shift" },
-      { text: "17 - 10 = 7. The answer stays the same!", visual: "solve" }
-    ]
-  },
-  {
-    id: 'ten-jump',
-    title: 'Ten Jump',
-    icon: <ChevronsUp />,
-    color: 'bg-indigo-100 text-indigo-600',
-    steps: [
-      { text: "Adding big numbers like 25 + 26 is hard. Don't do it all at once!", visual: "intro" },
-      { text: "Break the second number into 10s. 26 becomes 10, 10, and 6.", visual: "split" },
-      { text: "Jump by 10s! 25... 35... 45... plus 6 is 51. Easy peasy!", visual: "climb" }
-    ]
-  },
-  {
-    id: 'number-bonds',
-    title: 'Make 10',
-    icon: <Hand />,
-    color: 'bg-teal-100 text-teal-600',
-    steps: [
-      { text: "Use your fingers to map numbers that make 10.", visual: "hands" },
-      { text: "Fold down 3 fingers. You see 7 left standing.", visual: "fold" },
-      { text: "3 + 7 = 10. These pairs are best friends.", visual: "friends" }
-    ]
-  },
-  {
-    id: 'break',
-    title: 'Break Apart',
-    icon: <Scissors />,
-    color: 'bg-pink-100 text-pink-600',
-    steps: [
-      { text: "23 + 45. Don't do it all at once.", visual: "split" },
-      { text: "Smash them! Tens with Tens. Ones with Ones.", visual: "group" },
-      { text: "20+40=60. 3+5=8. Answer: 68!", visual: "solve" }
-    ]
-  }
-];
+// Map icons and colors to IDs since JSON constant only has text
+const MODULE_META: Record<string, { icon: React.ReactNode, color: string }> = {
+  'start-big': { icon: <Rocket />, color: 'bg-blue-100 text-blue-600' },
+  'plus-nine': { icon: <Zap />, color: 'bg-yellow-100 text-yellow-600' },
+  'doubles': { icon: <Copy />, color: 'bg-purple-100 text-purple-600' },
+  'nine-ten': { icon: <Brain />, color: 'bg-red-100 text-red-600' },
+  'reverse': { icon: <ArrowLeftRight />, color: 'bg-green-100 text-green-600' },
+  'same-change': { icon: <MoveRight />, color: 'bg-orange-100 text-orange-600' },
+  'ten-jump': { icon: <ChevronsUp />, color: 'bg-indigo-100 text-indigo-600' },
+  'number-bonds': { icon: <Hand />, color: 'bg-teal-100 text-teal-600' },
+  'break': { icon: <Scissors />, color: 'bg-pink-100 text-pink-600' }
+};
 
 // --- Visualization Component ---
 const HackVisualizer = ({ moduleId, visualStep }: { moduleId: string, visualStep: string }) => {
@@ -326,11 +238,20 @@ const HackVisualizer = ({ moduleId, visualStep }: { moduleId: string, visualStep
   return <div className="h-40 flex items-center justify-center text-gray-300">Graphic loading...</div>;
 };
 
-export const LearnMode: React.FC<LearnModeProps> = ({ onBack, t }) => {
+export const LearnMode: React.FC<LearnModeProps> = ({ onBack, t, language }) => {
   const [activeModuleIndex, setActiveModuleIndex] = useState<number | null>(null);
   const [step, setStep] = useState(0);
 
-  const activeModule = activeModuleIndex !== null ? LEARN_MODULES[activeModuleIndex] : null;
+  // Get localized content or fallback to English
+  const modulesData = LEARN_CONTENT[language] || LEARN_CONTENT['en'];
+  
+  // Merge text data with visual metadata
+  const modules = modulesData.map((mod: any) => ({
+      ...mod,
+      ...MODULE_META[mod.id]
+  }));
+
+  const activeModule = activeModuleIndex !== null ? modules[activeModuleIndex] : null;
 
   if (activeModule) return (
     <div className="flex flex-col h-full max-w-md mx-auto">
@@ -381,7 +302,7 @@ export const LearnMode: React.FC<LearnModeProps> = ({ onBack, t }) => {
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 overflow-y-auto custom-scrollbar">
-        {LEARN_MODULES.map((mod, idx) => (
+        {modules.map((mod: any, idx: number) => (
             <button 
                 key={mod.id}
                 onClick={() => setActiveModuleIndex(idx)}

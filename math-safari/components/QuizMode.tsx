@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Home, Trophy, SkipForward, ArrowRight } from 'lucide-react';
 import { Button } from './Button';
 import { Card } from './Card';
@@ -28,6 +28,9 @@ export const QuizMode: React.FC<QuizModeProps> = ({ onBack, selectedLevel, langu
   const [story, setStory] = useState<StoryPage[] | null>(null);
   const [storyIndex, setStoryIndex] = useState(0);
   const [loadingStory, setLoadingStory] = useState(false);
+  
+  // Track last question to avoid duplicates
+  const lastQuestionRef = useRef<string>("");
 
   useEffect(() => {
     if (selectedLevel.id === 7) {
@@ -50,18 +53,29 @@ export const QuizMode: React.FC<QuizModeProps> = ({ onBack, selectedLevel, langu
 
   const generateQuestion = () => {
     let n1 = 0, n2 = 0, op = '+';
-    setHint(null);
-    switch (selectedLevel.id) {
-      case 1: n1 = Math.floor(Math.random() * 9) + 1; n2 = Math.floor(Math.random() * 9) + 1; break;
-      case 2: n1 = (Math.floor(Math.random() * 8) + 1) * 10; n2 = (Math.floor(Math.random() * (9 - (n1/10))) + 1) * 10; break;
-      case 3: n1 = Math.floor(Math.random() * 30) + 11; n2 = Math.floor(Math.random() * 30) + 11; break;
-      case 4: n1 = Math.floor(Math.random() * 9) + 2; n2 = Math.floor(Math.random() * (n1 - 1)) + 1; op = '-'; break;
-      case 5: n1 = (Math.floor(Math.random() * 8) + 2) * 10; n2 = (Math.floor(Math.random() * ((n1/10) - 1)) + 1) * 10; op = '-'; break;
-      case 6: if (Math.random() > 0.5) { n1 = Math.floor(Math.random() * 40) + 10; n2 = Math.floor(Math.random() * 40) + 10; } 
-              else { n1 = Math.floor(Math.random() * 50) + 40; n2 = Math.floor(Math.random() * 30) + 10; op = '-'; } break;
-      default: n1 = 5; n2 = 5;
-    }
+    let newQuestionKey = "";
+    let attempts = 0;
+
+    // Retry loop to ensure non-repeating questions
+    do {
+        switch (selectedLevel.id) {
+            case 1: n1 = Math.floor(Math.random() * 9) + 1; n2 = Math.floor(Math.random() * 9) + 1; break;
+            case 2: n1 = (Math.floor(Math.random() * 8) + 1) * 10; n2 = (Math.floor(Math.random() * (9 - (n1/10))) + 1) * 10; break;
+            case 3: n1 = Math.floor(Math.random() * 30) + 11; n2 = Math.floor(Math.random() * 30) + 11; break;
+            case 4: n1 = Math.floor(Math.random() * 9) + 2; n2 = Math.floor(Math.random() * (n1 - 1)) + 1; op = '-'; break;
+            case 5: n1 = (Math.floor(Math.random() * 8) + 2) * 10; n2 = (Math.floor(Math.random() * ((n1/10) - 1)) + 1) * 10; op = '-'; break;
+            case 6: if (Math.random() > 0.5) { n1 = Math.floor(Math.random() * 40) + 10; n2 = Math.floor(Math.random() * 40) + 10; } 
+                    else { n1 = Math.floor(Math.random() * 50) + 40; n2 = Math.floor(Math.random() * 30) + 10; op = '-'; } break;
+            default: n1 = 5; n2 = 5;
+        }
+        newQuestionKey = `${n1}${op}${n2}`;
+        attempts++;
+    } while (newQuestionKey === lastQuestionRef.current && attempts < 5);
+
+    lastQuestionRef.current = newQuestionKey;
+    
     setQuestion({ n1, n2, op });
+    setHint(null);
     setUserAnswer('');
     setStatus('input');
     setBreakStatus({ n1: false, n2: false });
@@ -220,12 +234,12 @@ export const QuizMode: React.FC<QuizModeProps> = ({ onBack, selectedLevel, langu
         )}
       </Card>
 
-      {(status === 'input' && (selectedLevel.id !== 3 || (breakStatus.n1 && breakStatus.n2))) && (
+      {((status === 'input' || status === 'wrong') && (selectedLevel.id !== 3 || (breakStatus.n1 && breakStatus.n2))) && (
          <NumPad 
             onInput={(val) => setUserAnswer(prev => prev + val)} 
             onDelete={() => setUserAnswer(prev => prev.slice(0, -1))}
             onGo={checkAnswer}
-            disabled={status === 'story-wrong' || status === 'correct'}
+            disabled={false}
             t={t}
          />
       )}

@@ -3,6 +3,7 @@ import { Language } from './types';
 export const LANGUAGES: Language[] = [
   { code: 'en', name: 'English', label: 'English', icon: 'EN', color: 'bg-blue-400' },
   { code: 'hi', name: 'Hindi', label: 'हिन्दी', icon: 'हिं', color: 'bg-orange-400' },
+  { code: 'gu', name: 'Gujarati', label: 'ગુજરાતી', icon: 'ગુ', color: 'bg-pink-500' },
   { code: 'mr', name: 'Marathi', label: 'मराठी', icon: 'म', color: 'bg-purple-400' },
   { code: 'bn', name: 'Bengali', label: 'বাংলা', icon: 'বা', color: 'bg-green-400' },
   { code: 'ta', name: 'Tamil', label: 'தமிழ்', icon: 'த', color: 'bg-red-400' },
@@ -58,6 +59,54 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     friendlyDesc: "Turn messy numbers into nice numbers ending in Zero.",
     selectLang: "Select Language",
     hiGuide: "Hi! I am Leo. Pick your language!"
+  },
+  gu: {
+    appTitle: "ગણિત સફારી",
+    appSubtitle: "અભિયાનમાં જોડાઓ!",
+    learnBtn: "રહસ્યો શીખો",
+    startBtn: "સાહસ શરૂ કરો",
+    fieldGuide: "ફીલ્ડ ગાઈડ",
+    chooseLevel: "સ્તર પસંદ કરો",
+    back: "પાછા",
+    next: "આગળ",
+    finish: "સમાપ્ત",
+    skip: "છોડો",
+    go: "જાઓ",
+    del: "ભૂંસો",
+    oops: "અરે! ફરી પ્રયાસ કરો.",
+    awesome: "ખૂબ સરસ!",
+    nextChallenge: "આગળનો પડકાર",
+    nextPart: "આગળનો ભાગ",
+    gotIt: "સમજાઈ ગયું",
+    finishStory: "વાર્તા પૂરી",
+    guideSays: "ગાઈડ કહે છે:",
+    easyAdd: "સરળ સરવાળો!",
+    findHidden: "કીપેડ જોવા માટે છુપાયેલા નંબરો શોધો!",
+    breakNum: "તોડો",
+    perfect: "ઉત્તમ!",
+    findTen: "દસ શોધો",
+    letsLearn: "ચાલો શીખીએ!",
+    correctIs: "સાચો જવાબ છે",
+    writingStory: "નવી વાર્તા લખાઈ રહી છે...",
+    congrats: "અભિનંદન!",
+    points: "તમે પહોંચ્યા",
+    l1_name: "નાના ડગલાં", l1_desc: "એક અંકનો સરવાળો (1-9)",
+    l2_name: "દસની ટોળકી", l2_desc: "દસ ઉમેરવા (10, 20...)",
+    l3_name: "નંબર બ્રેકર", l3_desc: "તોડો અને ઉમેરો",
+    l4_name: "નાની બાદબાકી", l4_desc: "એક અંકની બાદબાકી",
+    l5_name: "મોટી બાદબાકી", l5_desc: "દસની બાદબાકી",
+    l6_name: "જંગલ માસ્ટર", l6_desc: "મિશ્ર પડકાર",
+    l7_name: "વાર્તા સફારી", l7_desc: "વાંચો, યાદ રાખો અને ઉકેલો!",
+    step: "પગલું",
+    of: "માંથી",
+    foundation: "પાયો",
+    smart: "સ્માર્ટ",
+    breakTitle: "તોડીને જુઓ",
+    breakDesc: "સંખ્યાઓને દસ અને એકમમાં વહેંચો!",
+    friendlyTitle: "મિત્ર સંખ્યાઓ",
+    friendlyDesc: "અઘરા નંબરોને શૂન્યવાળા સરળ નંબરોમાં ફેરવો.",
+    selectLang: "ભાષા પસંદ કરો",
+    hiGuide: "નમસ્તે! હું લિયો છું. તમારી ભાષા પસંદ કરો!"
   },
   hi: {
     appTitle: "गणित सफारी",
@@ -347,4 +396,137 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     selectLang: "ಭಾಷೆ ಆರಿಸಿ",
     hiGuide: "ನಮಸ್ಕಾರ! ನಾನು ಲಿಯೋ. ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆರಿಸಿ!"
   }
+};
+
+export const LEARN_CONTENT: Record<string, any[]> = {
+  en: [
+    {
+      id: 'start-big', title: 'Start Big', steps: [
+        { text: "Most kids try to add 3 + 12 by starting at 3 and counting up 12 times. That is slow!", visual: "slow" },
+        { text: "The Trick: Always put the BIGGER number in your head first.", visual: "highlight" },
+        { text: "Say '12' out loud, then count up '13, 14, 15'. Much faster!", visual: "fast" }
+      ]
+    },
+    {
+      id: 'plus-nine', title: 'Plus 9 Magic', steps: [
+        { text: "Adding 9 is hard. But adding 10 is easy!", visual: "compare" },
+        { text: "To add 9, just add 10 and jump back 1.", visual: "jump" },
+        { text: "24 + 9? Think: 24 + 10 = 34. Minus 1 = 33!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'doubles', title: 'Doubles + 1', steps: [
+        { text: "If you know 6 + 6, you know 6 + 7!", visual: "doubles" },
+        { text: "7 is just 6 + 1. They are neighbors.", visual: "neighbors" },
+        { text: "So 6 + 7 is the same as (6 + 6) + 1. That's 12 + 1 = 13!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'nine-ten', title: '9 & 10 Rule', steps: [
+        { text: "Subtracting from 100 or 1000? Use the 'All from 9 and last from 10' rule.", visual: "intro" },
+        { text: "100 - 36. Subtract the first digit (3) from 9.", visual: "step1" },
+        { text: "Subtract the last digit (6) from 10. Answer is 64!", visual: "step2" }
+      ]
+    },
+    {
+      id: 'reverse', title: 'Reverse Add', steps: [
+        { text: "Subtraction is hard. Addition is easy. Use addition to solve subtraction!", visual: "intro" },
+        { text: "13 - 9 = ? Instead, think: 9 + ? = 13", visual: "bridge" },
+        { text: "9... 10, 11, 12, 13. We needed 4 steps. The answer is 4!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'same-change', title: 'Same Change', steps: [
+        { text: "15 - 8 looks messy. Let's make the numbers friendly.", visual: "messy" },
+        { text: "Add 2 to BOTH numbers. 8 becomes 10. 15 becomes 17.", visual: "shift" },
+        { text: "17 - 10 = 7. The answer stays the same!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'ten-jump', title: 'Ten Jump', steps: [
+        { text: "Adding big numbers like 25 + 26 is hard. Don't do it all at once!", visual: "intro" },
+        { text: "Break the second number into 10s. 26 becomes 10, 10, and 6.", visual: "split" },
+        { text: "Jump by 10s! 25... 35... 45... plus 6 is 51. Easy peasy!", visual: "climb" }
+      ]
+    },
+    {
+      id: 'number-bonds', title: 'Make 10', steps: [
+        { text: "Use your fingers to map numbers that make 10.", visual: "hands" },
+        { text: "Fold down 3 fingers. You see 7 left standing.", visual: "fold" },
+        { text: "3 + 7 = 10. These pairs are best friends.", visual: "friends" }
+      ]
+    },
+    {
+      id: 'break', title: 'Break Apart', steps: [
+        { text: "23 + 45. Don't do it all at once.", visual: "split" },
+        { text: "Smash them! Tens with Tens. Ones with Ones.", visual: "group" },
+        { text: "20+40=60. 3+5=8. Answer: 68!", visual: "solve" }
+      ]
+    }
+  ],
+  gu: [
+    {
+      id: 'start-big', title: 'મોટી શરૂઆત', steps: [
+        { text: "મોટાભાગના બાળકો 3 + 12 કરવા માટે 3 થી શરૂ કરીને 12 ગણે છે. આ ધીમું છે!", visual: "slow" },
+        { text: "યુક્તિ: હંમેશા મોટી સંખ્યાને તમારા મગજમાં પહેલા રાખો.", visual: "highlight" },
+        { text: "મોટેથી '12' બોલો, પછી '13, 14, 15' ગણો. ઘણું ઝડપી!", visual: "fast" }
+      ]
+    },
+    {
+      id: 'plus-nine', title: 'નવનો જાદુ', steps: [
+        { text: "9 ઉમેરવા અઘરા છે. પણ 10 ઉમેરવા સરળ છે!", visual: "compare" },
+        { text: "9 ઉમેરવા માટે, 10 ઉમેરો અને 1 પાછળ જાઓ.", visual: "jump" },
+        { text: "24 + 9? વિચારો: 24 + 10 = 34. ઓછા 1 = 33!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'doubles', title: 'ડબલ્સ + 1', steps: [
+        { text: "જો તમને 6 + 6 આવડે, તો 6 + 7 પણ આવડે!", visual: "doubles" },
+        { text: "7 એ માત્ર 6 + 1 છે. તેઓ પડોશીઓ છે.", visual: "neighbors" },
+        { text: "તેથી 6 + 7 એ (6 + 6) + 1 જેવું છે. એટલે કે 12 + 1 = 13!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'nine-ten', title: '9 અને 10 નો નિયમ', steps: [
+        { text: "100 કે 1000 માંથી બાદબાકી? 'બધા 9 માંથી અને છેલ્લો 10 માંથી' નિયમ વાપરો.", visual: "intro" },
+        { text: "100 - 36. પહેલા અંક (3) ને 9 માંથી બાદ કરો.", visual: "step1" },
+        { text: "છેલ્લા અંક (6) ને 10 માંથી બાદ કરો. જવાબ 64 છે!", visual: "step2" }
+      ]
+    },
+    {
+      id: 'reverse', title: 'ઊંધો સરવાળો', steps: [
+        { text: "બાદબાકી અઘરી છે. સરવાળો સરળ છે. બાદબાકી ઉકેલવા સરવાળાનો ઉપયોગ કરો!", visual: "intro" },
+        { text: "13 - 9 = ? તેના બદલે વિચારો: 9 + ? = 13", visual: "bridge" },
+        { text: "9... 10, 11, 12, 13. આપણને 4 પગલાં લાગ્યા. જવાબ 4 છે!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'same-change', title: 'સમાન ફેરફાર', steps: [
+        { text: "15 - 8 અઘરું લાગે છે. ચાલો નંબરોને મિત્ર બનાવીએ.", visual: "messy" },
+        { text: "બંને નંબરમાં 2 ઉમેરો. 8 બને છે 10. 15 બને છે 17.", visual: "shift" },
+        { text: "17 - 10 = 7. જવાબ તે જ રહે છે!", visual: "solve" }
+      ]
+    },
+    {
+      id: 'ten-jump', title: 'દસનો કૂદકો', steps: [
+        { text: "25 + 26 જેવી મોટી સંખ્યાઓ ઉમેરવી અઘરી છે. એકસાથે ન કરો!", visual: "intro" },
+        { text: "બીજી સંખ્યાને 10 માં તોડો. 26 બને છે 10, 10, અને 6.", visual: "split" },
+        { text: "10 ના કૂદકા મારો! 25... 35... 45... વત્તા 6 એટલે 51. એકદમ સરળ!", visual: "climb" }
+      ]
+    },
+    {
+      id: 'number-bonds', title: '10 બનાવો', steps: [
+        { text: "10 બનાવતા નંબરો જોવા તમારી આંગળીઓનો ઉપયોગ કરો.", visual: "hands" },
+        { text: "3 આંગળીઓ વાળો. તમને 7 ઉભી દેખાશે.", visual: "fold" },
+        { text: "3 + 7 = 10. આ જોડીઓ પાક્કા મિત્રો છે.", visual: "friends" }
+      ]
+    },
+    {
+      id: 'break', title: 'છૂટું પાડો', steps: [
+        { text: "23 + 45. બધું એકસાથે ન કરો.", visual: "split" },
+        { text: "તેમને તોડો! દસ સાથે દસ. એકમ સાથે એકમ.", visual: "group" },
+        { text: "20+40=60. 3+5=8. જવાબ: 68!", visual: "solve" }
+      ]
+    }
+  ]
 };

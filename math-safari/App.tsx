@@ -181,7 +181,7 @@ export default function App() {
                   </div>
               </div>
           )}
-          {view === 'learn' && <LearnMode onBack={() => setView('menu')} t={t} />}
+          {view === 'learn' && <LearnMode onBack={() => setView('menu')} t={t} language={language} />}
           {view === 'levelselect' && <LevelSelect onBack={() => setView('menu')} onSelect={(l: Level) => { setCurrentLevel(l); setView('game'); }} t={t} />}
           {view === 'game' && currentLevel && <QuizMode selectedLevel={currentLevel} onBack={() => setView('menu')} language={language} t={t} />}
       </div>
